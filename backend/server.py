@@ -3,10 +3,14 @@ from py2neo import Graph
 from py2neo import Node
 from py2neo import Relationship
 import pandas as pd
+from flask_cors import CORS
+
 
 graph = Graph("bolt://localhost:7687", user="neo4j", password="projectnetwork")
 
 app = Flask(__name__)
+CORS(app)
+
 
 @app.route('/')
 def index():
@@ -26,7 +30,7 @@ def ongoing_projects():
     return lst
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8087)
+    app.run(debug=True, port=8080)
 
 
 # connect it to frontend as follows:
