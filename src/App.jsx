@@ -11,6 +11,7 @@ import Footer from "../components/Footer"
 import YourProfile from '../components/YourProfile';
 import FindPeople from '../components/FindPeople';
 import Sidebar from '../components/Sidebar';
+import FindProjects from '../components/FindProjects';
 // import UploadData from '../components/UploadData';
 // import AccessData from '../components/AccessData';
 
@@ -85,6 +86,17 @@ const router = createBrowserRouter([
         <Navbar />
         <Sidebar/>
         <FindPeople/>
+        <Footer />
+      </>
+    ),
+  },
+  {
+    path: "/find_projects",
+    element: (
+      <>
+        <Navbar />
+        <Sidebar/>
+        <FindProjects/>
         <Footer />
       </>
     ),

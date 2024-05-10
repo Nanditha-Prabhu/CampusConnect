@@ -47,7 +47,11 @@ def all_area_of_interests():
     UNWIND f.area_of_interest AS faculty_interest 
     WITH COLLECT(DISTINCT faculty_interest) AS faculty_interests, student_interests
 
-    WITH student_interests + faculty_interests AS all_interests
+    MATCH (p:PROJECT)
+    UNWIND p.area_of_interest AS project_interest
+    WITH COLLECT(DISTINCT project_interest) AS project_interests, faculty_interests, student_interests
+
+    WITH student_interests + faculty_interests + project_interests AS all_interests
     UNWIND all_interests AS interest
     RETURN DISTINCT interest
     ORDER BY interest
@@ -88,6 +92,22 @@ def find_people():
             nodes[i].append('None')
     print(nodes)
     return nodes
+
+@app.route('/find_projects', methods=['POST'])
+def find_projects():
+    data = request.json
+    status = data.get('status')
+    area = data.get('area')
+    query1 = "MATCH (P:PROJECT) WHERE '"+ area +"' IN P.area_of_interest AND P.status= '" + status + "' RETURN P.title, P.area_of_interest, P.description, P.status "
+    query2 = "MATCH (P:PROJECT) WHERE '"+ area +"' IN P.area_of_interest RETURN P.title, P.area_of_interest, P.description, P.status "
+
+    if status =='All':
+        result, meta = db.cypher_query(query2)
+        print(result)
+    else:
+        result, meta = db.cypher_query(query1)
+        print(result)
+    return result
 
 
 if __name__ == '__main__':

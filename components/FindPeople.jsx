@@ -120,21 +120,21 @@ export default function FindPeople() {
             </button>
           </div>
         </form>
-        <div className="mx-auto max-w-lg text-center">
+        <div className="mx-auto max-w-screen-lg text-center">
           <h2 className="text-xl dark:text-white font-bold sm:text-2xl py-8">Results</h2>
           <table className=" w-full border-collapse">
             <thead>
               <tr>
-                <th className=" border-2 text-amber-500  py-10">
+                <th className=" border-2 text-amber-500 px-3 py-10">
                   Name
                 </th>
-                <th className=" border-2 text-amber-500  py-10">
+                <th className=" border-2 text-amber-500 px-3 py-10">
                   Department
                 </th>
-                <th className=" border-2 text-amber-500  py-10">
+                <th className=" border-2 text-amber-500 px-3 py-10">
                   Other Details
                 </th>
-                <th className=" border-2 text-amber-500  py-10">
+                <th className=" border-2 text-amber-500 px-3 py-10">
                   Contact
                 </th>
               </tr>
@@ -143,10 +143,10 @@ export default function FindPeople() {
               {response.map((arr, i) => {
                 return <tr key={i}>
                   {arr.map((item, j) => {
-                    return <td key={j} className=" border-2 text-slate-700 dark:text-slate-100 py-10 ">
+                    return <td key={j} className=" border-2 text-slate-700 dark:text-slate-100 px-3 py-10 ">
                       {item}
                     </td>
-                  }) }
+                  })}
                 </tr>
               })}
             </tbody>
