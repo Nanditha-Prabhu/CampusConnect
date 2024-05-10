@@ -8,6 +8,9 @@ import StudentSignUp from "../components/StudentSignUp"
 import StudentSignIn from "../components/StudentSignIn"
 import FacultySignUp from "../components/FacultySignUp"
 import Footer from "../components/Footer"
+import YourProfile from '../components/YourProfile';
+import FindPeople from '../components/FindPeople';
+import Sidebar from '../components/Sidebar';
 // import UploadData from '../components/UploadData';
 // import AccessData from '../components/AccessData';
 
@@ -25,6 +28,7 @@ const router = createBrowserRouter([
     element: (
       <>
       <Navbar/>
+      <Sidebar/>
         <Home/>
         <Footer />
       </>
@@ -35,6 +39,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
+        <Sidebar/>
         <StudentSignIn />
         <Footer />
       </>
@@ -45,6 +50,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
+        <Sidebar/>
         <StudentSignUp />
         <Footer />
       </>
@@ -55,31 +61,34 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
+        <Sidebar/>
         <FacultySignUp />
         <Footer />
       </>
     ),
   },
-  // {
-  //   path: "/Access_Data",
-  //   element: (
-  //     <>
-  //       <Navbar />
-  //       <AccessData/>
-  //       <Footer />
-  //     </>
-  //   ),
-  // },
-  // {
-  //   path: "/Upload_Data",
-  //   element: (
-  //     <>
-  //       <Navbar />
-  //       <UploadData/>
-  //       <Footer />
-  //     </>
-  //   ),
-  // },
+  {
+    path: "/your_profile",
+    element: (
+      <>
+        <Navbar />
+        <Sidebar/>
+        <YourProfile/>
+        <Footer />
+      </>
+    ),
+  },
+  {
+    path: "/find_people",
+    element: (
+      <>
+        <Navbar />
+        <Sidebar/>
+        <FindPeople/>
+        <Footer />
+      </>
+    ),
+  },
   // {
   //   path: "/Privacy_Regulations",
   //   element: (

@@ -5,7 +5,6 @@ export default function Home() {
   return (
     <>
         <section className="flex bg-slate-500 dark:bg-gradient-to-r  dark:from-slate-900 dark:via-slate-700 dark:to-slate-500 text-white">
-          <Sidebar/>
         <div className="mx-auto max-w-screen-xl px-4 py-32 items-start lg:flex lg:h-screen lg:items-center">
           <div className=" max-w-5xl">
             <h1 className="bg-gradient-to-r from-green-400 via-yellow-200  to-red-300 bg-clip-text text-5xl font-extrabold text-transparent sm:text-5xl">
