@@ -60,17 +60,66 @@ def all_area_of_interests():
     # print(result)
     return result
 
+@app.route('/all_skills')
+def all_skills():
+    query = """
+    MATCH(s:STUDENT)
+    UNWIND s.skills AS sk
+    RETURN DISTINCT sk
+    ORDER BY sk
+    """
+    result, meta = db.cypher_query(query)
+    print(result)
+    return result
+
+@app.route('/create_student', methods=['POST'])
+def create_student():
+    data = request.json
+    sname = data.get('student_name')
+    usn = data.get('usn')
+    email = data.get('email_id')
+    dept = data.get('department')
+    aoi1 = data.get('area_of_int1')
+    aoi2 = data.get('area_of_int2')
+    sem = data.get('sem')
+    skills = data.get('skills')
+
+    aoi = []
+    aoi.append(aoi1)
+    aoi.append(aoi2)
+
+    query = """
+    CREATE (s:STUDENT {student_name: $sname, usn: $usn, email_id: $email, department: $dept, area_of_interest: $aoi, semester: $sem, skills: $skills})
+    """    
+    parameters = {
+    "sname": sname,
+    "usn": usn,
+    "email": email,
+    "dept": dept,
+    "aoi": aoi,
+    "sem": sem,
+    "skills": skills  # Pass the list directly as a parameter
+    }
+    result, meta = db.cypher_query(query, params=parameters)
+    print(result)
+    return result
+
 @app.route('/find_people', methods=['POST'])
 def find_people():
     data = request.json
     people = data.get('people')
     area = data.get('area')
-    query = "MATCH (n:" + people + ") WHERE '" + area + "' in n.area_of_interest RETURN n.name, n.student_name, n.department, n.designation, n.usn, n.email_id"
+    query1 = "MATCH (n:" + people + ") WHERE '" + area + "' in n.area_of_interest RETURN n.name, n.student_name, n.department, n.designation, n.usn, n.email_id"
+    query2 = "MATCH (n) WHERE '" + area + "' in n.area_of_interest RETURN n.name, n.student_name, n.department, n.designation, n.usn, n.email_id"
 
     nodes = [[],[],[],[]]
-    result, meta = db.cypher_query(query)
+    if(people=='ALL'):
+        result, meta = db.cypher_query(query2)
+    else:
+        result, meta = db.cypher_query(query1)
     print(result)
-    print(len(result))
+    # print(meta)
+    # print(len(result))
     # result_as_dict = [dict(zip(meta, row)) for row in result]
     # print(result_as_dict)
 
@@ -86,6 +135,20 @@ def find_people():
             nodes[1].append(result[i][2])
             nodes[2].append(result[i][4])
             nodes[3].append(result[i][5])
+    else:
+        for i in range(len(result)):
+            # faculty details
+            if(result[i][0] != None):
+                nodes[0].append(result[i][0])
+                nodes[1].append(result[i][2])
+                nodes[2].append(result[i][3])
+                nodes[3].append(result[i][5])
+            # student details
+            if(result[i][1] != None):
+                nodes[0].append(result[i][1])
+                nodes[1].append(result[i][2])
+                nodes[2].append(result[i][4])
+                nodes[3].append(result[i][5])
 
     if nodes[0] == [] :
         for i in range(len(nodes)):
@@ -109,6 +172,22 @@ def find_projects():
         print(result)
     return result
 
+@app.route('/find_students', methods=['POST'])
+def find_students():
+    data = request.json
+    areaOfInterest = data.get('areaOfInterest')
+    skill = data.get('skill')
+    query = """
+    MATCH (s:STUDENT)
+    WHERE $areaOfInterest IN s.area_of_interest OR $skill IN s.skills
+    RETURN s.student_name, s.area_of_interest, s.skills
+    """
+    parameters = {
+        'areaOfInterest': areaOfInterest,
+        'skill': skill
+    }
+    result, meta = db.cypher_query(query, params=parameters)
+    
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

@@ -36,8 +36,6 @@ export default function FindProjects() {
       console.log(r.data);
       const data = r.data
       
-      // Transpose the array
-      //const data = data[0].map((_, colIndex) => data.map(row => row[colIndex]));
       data.map((item, idx) => {
       response.push(item);
       });

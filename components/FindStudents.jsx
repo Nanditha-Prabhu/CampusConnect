@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-export default function FindPeople() {
+export default function FindStudents() {
   const [formData, setFormData] = useState({
-    people: "",
-    area: "",
+    areaOfInterest: "",
+    skill: "",
   });
   let [response, setResponse] = useState([]);
   const [areaOfInt, setAreaOfInt] = useState([]);
+  const [skls, setSkls] = useState([]);
 
   useEffect(() => {
     applyAreaOfInterest();
@@ -23,6 +24,21 @@ export default function FindPeople() {
       console.error('Error fetching data:', error);
     }
   }
+
+  useEffect(() => {
+    applySkls();
+  }, []);
+
+  const applySkls = async () => {
+    try {
+      const r = await axios.get("http://localhost:8080/all_skills");
+      setSkls(r.data);
+      //console.log(r.data);
+      //console.log(skls);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -111,6 +127,36 @@ export default function FindPeople() {
               </select>
             </div>
           </div>
+
+          <div>
+                  <label className="text-base font-medium text-gray-900 dark:text-slate-200">
+                    Skills
+                  </label>
+                  <div className="relative pt-2">
+              <select
+              required
+                name="area"
+                value={formData.area}
+                onChange={handleChange}
+                type="area"
+                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+              >
+                <option value="">Select skill</option>
+                    {skls &&
+                      skls.flat().map((item, idx) => {
+                        return (
+                            <option
+                              id={item}
+                              name="skills"
+                              value={item}
+                              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                            >{item}</option>
+                            
+                        );})}
+                 </select>
+                  
+                </div>
+              </div>
                 
           <div className="flex items-center justify-between">
             <button
