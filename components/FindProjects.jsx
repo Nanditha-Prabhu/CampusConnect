@@ -141,23 +141,22 @@ export default function FindProjects() {
             <tbody>
               {response && response.map((arr, idx) => {
                 return <tr key={idx}>
-                    {/* {arr.map((a,i)=>{ */}
-                        {/* console.log(a) */}
                         <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 py-10 text-left">
                         {arr[0]}
                         </td>
+                        <td>
                         {arr[1].map((aoi, i)=>{
                             return <li key={i} className=" border px-3 text-slate-700 dark:text-slate-100 py-10 text-left">
                             {aoi}
                             </li>
                         })}
+                        </td>
                         <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 py-10 text-left">
                         {arr[2]}
                         </td>
                         <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 py-10 text-left">
                         {arr[3]}
                         </td>
-                    {/* })} */}
                 </tr>
             })} 
 

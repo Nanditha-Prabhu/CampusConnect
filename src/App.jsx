@@ -12,6 +12,7 @@ import YourProfile from '../components/YourProfile';
 import FindPeople from '../components/FindPeople';
 import Sidebar from '../components/Sidebar';
 import FindProjects from '../components/FindProjects';
+import FindStudents from '../components/FindStudents';
 // import UploadData from '../components/UploadData';
 // import AccessData from '../components/AccessData';
 
@@ -97,6 +98,17 @@ const router = createBrowserRouter([
         <Navbar />
         <Sidebar/>
         <FindProjects/>
+        <Footer />
+      </>
+    ),
+  },
+  {
+    path: "/find_students",
+    element: (
+      <>
+        <Navbar />
+        <Sidebar/>
+        <FindStudents/>
         <Footer />
       </>
     ),

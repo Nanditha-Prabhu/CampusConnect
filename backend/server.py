@@ -180,13 +180,15 @@ def find_students():
     query = """
     MATCH (s:STUDENT)
     WHERE $areaOfInterest IN s.area_of_interest OR $skill IN s.skills
-    RETURN s.student_name, s.area_of_interest, s.skills
+    RETURN s.student_name, s.department, s.area_of_interest, s.skills, s.email_id
     """
     parameters = {
         'areaOfInterest': areaOfInterest,
         'skill': skill
     }
     result, meta = db.cypher_query(query, params=parameters)
+    print(result)
+    return result
     
 
 if __name__ == '__main__':

@@ -48,16 +48,16 @@ export default function FindStudents() {
     event.preventDefault();
 
     try {
-      const r = await axios.post("http://localhost:8080/find_people", formData);
+      const r = await axios.post("http://localhost:8080/find_students", formData);
       console.log(r.data);
       const data = r.data
       
       // Transpose the array
-      const data2 = data[0].map((_, colIndex) => data.map(row => row[colIndex]));
-      data2.map((item, idx) => {
+    //   const data2 = data[0].map((_, colIndex) => data.map(row => row[colIndex]));
+      data.map((item, idx) => {
       response.push(item);
       });
-      setResponse(data2)
+      setResponse(data)
       
       // Display the transposed array
       console.log(response);
@@ -73,12 +73,11 @@ export default function FindStudents() {
       <div className="mx-auto max-w-screen-2xl px-4 py-32 dark:bg-slate-700 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-2xl dark:text-white font-bold sm:text-3xl">
-            Find people with similar interests🚀{" "}
+            Find people with right skills 🎖
           </h1>
 
           <p className="mt-4 text-gray-500">
-            Find people who has interests just like you in your campus whether
-            it is a student or faculty, and collaborate with them!
+            Find students who has interests and skills just like you need for your project..
           </p>
         </div>
 
@@ -86,36 +85,17 @@ export default function FindStudents() {
           onSubmit={handleSubmit}
           className=" mx-auto mb-0 mt-8 max-w-md space-y-4"
         >
+          
           <div>
-            <label className="dark:text-white" htmlFor="person">Who is it?</label>
+            <label className="dark:text-white" htmlFor="areaOfInterest">Area of interest</label>
 
             <div className="relative pt-2">
               <select
               required
-                name="people"
-                value={formData.people}
+                name="areaOfInterest"
+                value={formData.areaOfInterest}
                 onChange={handleChange}
-                id="person"
-                className=" w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-              >
-                <option value="">Select the person type</option>
-                <option value="FACULTY">Faculty</option>
-                <option value="STUDENT">Student</option>
-                <option value="ALL">All</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label className="dark:text-white" htmlFor="area">Area of interest</label>
-
-            <div className="relative pt-2">
-              <select
-              required
-                name="area"
-                value={formData.area}
-                onChange={handleChange}
-                type="area"
+                type="text"
                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
               >
                 <option value="">Select area of interest</option>
@@ -129,16 +109,16 @@ export default function FindStudents() {
           </div>
 
           <div>
-                  <label className="text-base font-medium text-gray-900 dark:text-slate-200">
+                  <label className="dark:text-white">
                     Skills
                   </label>
                   <div className="relative pt-2">
               <select
               required
-                name="area"
-                value={formData.area}
+                name="skill"
+                value={formData.skill}
                 onChange={handleChange}
-                type="area"
+                type="text"
                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
               >
                 <option value="">Select skill</option>
@@ -149,7 +129,6 @@ export default function FindStudents() {
                               id={item}
                               name="skills"
                               value={item}
-                              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                             >{item}</option>
                             
                         );})}
@@ -179,7 +158,10 @@ export default function FindStudents() {
                   Department
                 </th>
                 <th className=" border-2 text-amber-500 px-3 py-10">
-                  Other Details
+                  Area of Interests
+                </th>
+                <th className=" border-2 text-amber-500 px-3 py-10">
+                  Skills
                 </th>
                 <th className=" border-2 text-amber-500 px-3 py-10">
                   Contact
@@ -187,14 +169,33 @@ export default function FindStudents() {
               </tr>
             </thead>
             <tbody>
-              {response.map((arr, i) => {
-                return <tr key={i}>
-                  {arr.map((item, j) => {
-                    return <td key={j} className=" border-2 text-slate-700 dark:text-slate-100 px-3 py-10 ">
-                      {item}
-                    </td>
-                  })}
-                </tr>
+              {response.map((arr, idx) => {
+                return <tr key={idx}>
+                
+                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
+                {arr[0]}
+                </td>
+                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
+                {arr[1]}
+                </td>
+                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
+                {arr[2].map((aoi, i)=>{
+                        return <li key={i} >
+                        {aoi}
+                        </li>
+                })}
+                </td>
+                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
+                {arr[3].map((sk, i)=>{
+                    return <li key={i} >
+                    {sk}
+                    </li>
+                })}
+                </td>
+                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
+                {arr[4]}
+                </td>
+        </tr>
               })}
             </tbody>
           </table>
