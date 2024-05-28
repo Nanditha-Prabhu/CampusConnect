@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Loading from "./Loading";
 
 export default function FindStudents() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,14 @@ export default function FindStudents() {
   let [response, setResponse] = useState([]);
   const [areaOfInt, setAreaOfInt] = useState([]);
   const [skls, setSkls] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading for 2 seconds
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     applyAreaOfInterest();
@@ -45,6 +54,7 @@ export default function FindStudents() {
   };
 
   const handleSubmit = async (event) => {
+    setIsLoading(true)
     event.preventDefault();
 
     try {
@@ -54,14 +64,18 @@ export default function FindStudents() {
       
       // Transpose the array
     //   const data2 = data[0].map((_, colIndex) => data.map(row => row[colIndex]));
+    if(data.length == 0){
+      alert('No students found :(')
+    }else{
       data.map((item, idx) => {
       response.push(item);
       });
       setResponse(data)
+    }
       
       // Display the transposed array
       console.log(response);
-      
+      setIsLoading(false)
     } catch (error) {
       setResponse(null);
       console.error("Error submitting form:", error);
@@ -77,7 +91,8 @@ export default function FindStudents() {
           </h1>
 
           <p className="mt-4 text-gray-500">
-            Find students who has interests and skills just like you need for your project..
+            Find students who has interests and skills just like you need for
+            your project..
           </p>
         </div>
 
@@ -146,6 +161,9 @@ export default function FindStudents() {
             </button>
           </div>
         </form>
+        {isLoading?(
+          <Loading/>
+        ):(
         <div className="mx-auto max-w-screen-lg text-center">
           <h2 className="text-xl dark:text-white font-bold sm:text-2xl py-8">Results</h2>
           <table className=" w-full border-collapse">
@@ -200,6 +218,7 @@ export default function FindStudents() {
             </tbody>
           </table>
         </div>
+        )}
       </div>
     </>
   );

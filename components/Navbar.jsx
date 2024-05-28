@@ -21,13 +21,13 @@ export default function Navbar() {
             </div>
             <p className=" font-bold font-mono text-rose-400 dark:text-amber-200">Campus Connect</p>
 
-            <div className=" text-center">
+            {/* <div className=" text-center">
               <Link to="/your_profile"
                 className=" rounded  border border-gray-800 dark:border-green-200 bg-transparent hover:bg-green-400 px-5 py-2.5 text-sm font-medium text-slate-800 dark:text-white shadow  active:bg-green-700"
                 >
                 Your Profile
               </Link>
-            </div>
+            </div> */}
 
             {/* <div className="md:flex md:items-center md:gap-12">
         

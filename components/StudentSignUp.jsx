@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import axios from "axios";
+import Loading from "./Loading";
 
 export default function StudentSignUp() {
   const [areaOfInt, setAreaOfInt] = useState([]);
   const [skls, setSkls] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading for 2 seconds
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     applyAreaOfInterest();
@@ -78,6 +87,7 @@ export default function StudentSignUp() {
 
   const [response, setResponse] =useState([])
   const handleSubmit = async (event) => {
+    setIsLoading(true)
     event.preventDefault();
 
     try {
@@ -91,10 +101,9 @@ export default function StudentSignUp() {
         setResponse("Unsuccessful")
       }
       
-      
       // Display the transposed array
       console.log(response);
-      
+      setIsLoading(false)
     } catch (error) {
       setResponse(null);
       console.error("Error submitting form:", error);
@@ -103,7 +112,7 @@ export default function StudentSignUp() {
 
   return (
     <section>
-      <div className=" bg-slate-100 dark:bg-slate-700 flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
+      <div className="  dark:bg-slate-700 flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           
           <h2 className="text-center text-2xl font-bold leading-tight text-black dark:text-white">
@@ -205,15 +214,15 @@ export default function StudentSignUp() {
                     value={formData.department}
                     onChange={handleChange}
                   >
-                    <option value="">Select your department</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Information Science">
+                    <option className="text-black" value="">Select your department</option>
+                    <option className="text-black" value="Computer Science">Computer Science</option>
+                    <option className="text-black" value="Information Science">
                       Information Science
                     </option>
-                    <option value="Mechanical Engineering">
+                    <option className="text-black" value="Mechanical Engineering">
                       Mechanical Engineering
                     </option>
-                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option className="text-black" value="Civil Engineering">Civil Engineering</option>
                   </select>
                 </div>
               </div>
@@ -241,7 +250,7 @@ export default function StudentSignUp() {
                     {areaOfInt &&
                       areaOfInt.flat().map((item, idx) => {
                         return (
-                          <option key={item} value={item}>
+                          <option className="text-black" key={item} value={item}>
                             {item}
                           </option>
                         );
@@ -274,7 +283,7 @@ export default function StudentSignUp() {
                     {areaOfInt &&
                       areaOfInt.flat().map((item, idx) => {
                         return (
-                          <option key={item} value={item}>
+                          <option className="text-black" key={item} value={item}>
                             {item}
                           </option>
                         );
@@ -302,15 +311,15 @@ export default function StudentSignUp() {
                     value={formData.sem}
                     onChange={handleChange}
                   >
-                    <option value="">Select your semester</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
+                    <option className="text-black" value="">Select your semester</option>
+                    <option className="text-black" value="1">1</option>
+                    <option className="text-black" value="2">2</option>
+                    <option className="text-black" value="3">3</option>
+                    <option className="text-black" value="4">4</option>
+                    <option className="text-black" value="5">5</option>
+                    <option className="text-black" value="6">6</option>
+                    <option className="text-black" value="7">7</option>
+                    <option className="text-black" value="8">8</option>
                   </select>
                 </div>
               </div>
@@ -322,7 +331,7 @@ export default function StudentSignUp() {
                   </label>
                 </div>
                 <div className="mt-2 space-y-2">
-                  <div className="flex flex-wrap justify-between">
+                  <div className=" justify-between grid grid-cols-3 gap-4">
                     {skls &&
                       skls.flat().map((item, idx) => {
                         return (
@@ -358,10 +367,14 @@ export default function StudentSignUp() {
               </div>
             </div>
           </form>
-          {response && (
+          {isLoading?(
+          <Loading/>
+        ):(
+          response && (
             <p className={`p-5 text-center font-semibold text-lg ${response === 'Successful' ? 'text-green-500' : 'text-red-500'}`}>
   {response}
-</p>          )}
+</p>          )
+        )}
         </div>
       </div>
     </section>

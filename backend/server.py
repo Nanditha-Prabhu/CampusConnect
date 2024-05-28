@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 # py2neo is now End Of Life, we must use neomdel instead
 # from py2neo import Graph, Node, Relationship
@@ -104,6 +104,34 @@ def create_student():
     print(result)
     return result
 
+@app.route('/create_faculty', methods=['POST'])
+def create_faculty():
+    data = request.json
+    fname = data.get('name')
+    email = data.get('email_id')
+    dept = data.get('department')
+    aoi1 = data.get('area_of_int1')
+    aoi2 = data.get('area_of_int2')
+    desigtn = data.get('designation')
+
+    aoi = []
+    aoi.append(aoi1)
+    aoi.append(aoi2)
+
+    query = """
+    CREATE (f:FACULTY {name: $fname, email_id: $email, department: $dept, area_of_interest: $aoi, designation: $desigtn})
+    """    
+    parameters = {
+    "fname": fname,
+    "email": email,
+    "dept": dept,
+    "aoi": aoi,
+    "desigtn": desigtn # Pass the list directly as a parameter
+    }
+    result, meta = db.cypher_query(query, params=parameters)
+    print(result)
+    return result
+
 @app.route('/find_people', methods=['POST'])
 def find_people():
     data = request.json
@@ -189,6 +217,62 @@ def find_students():
     result, meta = db.cypher_query(query, params=parameters)
     print(result)
     return result
+
+@app.route('/know-team', methods=['POST'])
+def get_projects():
+    data = request.json
+    status = data.get('status')
+    query1 = """
+    MATCH (p:PROJECT)
+    OPTIONAL MATCH (p)<-[:WORKING_ON]-(s:STUDENT)
+    OPTIONAL MATCH (p)<-[:WORKING_ON]-(f:FACULTY)
+    OPTIONAL MATCH (f)-[:GUIDES]->(s)
+    WITH p, COLLECT(DISTINCT s) AS Students, COLLECT(DISTINCT f) AS Faculties
+    WHERE size(Students) > 0 AND size(Faculties) > 0 AND p.status= $status
+    RETURN p.title AS ProjectTitle, 
+           p.description AS ProjectDescription, 
+           p.status AS ProjectStatus, 
+           [s IN Students | s.student_name] AS Students,
+           [f IN Faculties | f.name] AS Faculties
+    ORDER BY ProjectTitle
+    """
+    query2 = """
+    MATCH (p:PROJECT)
+    OPTIONAL MATCH (p)<-[:WORKING_ON]-(s:STUDENT)
+    OPTIONAL MATCH (p)<-[:WORKING_ON]-(f:FACULTY)
+    OPTIONAL MATCH (f)-[:GUIDES]->(s)
+    WITH p, COLLECT(DISTINCT s) AS Students, COLLECT(DISTINCT f) AS Faculties
+    WHERE size(Students) > 0 AND size(Faculties) > 0 
+    RETURN p.title AS ProjectTitle, 
+           p.description AS ProjectDescription, 
+           p.status AS ProjectStatus, 
+           [s IN Students | s.student_name] AS Students,
+           [f IN Faculties | f.name] AS Faculties
+    ORDER BY ProjectTitle
+    """
+    parameters = {
+        'status': status
+    }
+    # result, meta = db.cypher_query(query2, params=parameters)
+    # print(result)
+    if status =='All':
+        result, meta = db.cypher_query(query2)
+        print(result)
+    else:
+        result, meta = db.cypher_query(query1, params=parameters)
+        print(result)
+    projects = []
+    for record in result:
+        project = {
+            "ProjectTitle": record[0],
+            "ProjectDescription": record[1],
+            "ProjectStatus": record[2],
+            "Students": record[3],
+            "Faculties": record[4]
+        }
+        projects.append(project)
+    print(projects)
+    return projects
     
 
 if __name__ == '__main__':

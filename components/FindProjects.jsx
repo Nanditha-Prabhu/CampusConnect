@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Loading from "./Loading";
 
 export default function FindProjects() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,14 @@ export default function FindProjects() {
   });
   let [response, setResponse] = useState([]);
   const [areaOfInt, setAreaOfInt] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading for 2 seconds
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     applyAreaOfInterest();
@@ -29,6 +38,7 @@ export default function FindProjects() {
   };
 
   const handleSubmit = async (event) => {
+    setIsLoading(true)
     event.preventDefault();
 
     try {
@@ -36,13 +46,20 @@ export default function FindProjects() {
       console.log(r.data);
       const data = r.data
       
-      data.map((item, idx) => {
-      response.push(item);
-      });
-      setResponse(data)
+      if(data.length == 0){
+        alert('No projects found :(')
+      }else{
+        data.map((item, idx) => {
+          console.log(item)
+          response.push(item);
+          });
+          setResponse(data)
+      }
+      
       
       // Display the transposed array
       console.log(response);
+      setIsLoading(false)
       
     } catch (error) {
       setResponse(null);
@@ -119,6 +136,9 @@ export default function FindProjects() {
             </button>
           </div>
         </form>
+        {isLoading?(
+          <Loading/>
+        ):(
         <div className="mx-auto max-w-screen-xl text-center">
           <h2 className="text-xl dark:text-white font-bold sm:text-2xl py-8">Results</h2>
           <table className=" w-full border-collapse">
@@ -144,9 +164,9 @@ export default function FindProjects() {
                         <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 py-10 text-left">
                         {arr[0]}
                         </td>
-                        <td>
+                        <td className=" border px-3 text-slate-700 dark:text-slate-100 py-10 text-left">
                         {arr[1].map((aoi, i)=>{
-                            return <li key={i} className=" border px-3 text-slate-700 dark:text-slate-100 py-10 text-left">
+                            return <li key={i} >
                             {aoi}
                             </li>
                         })}
@@ -163,6 +183,7 @@ export default function FindProjects() {
             </tbody>
           </table>
         </div>
+         )}
       </div>
     </>
   );

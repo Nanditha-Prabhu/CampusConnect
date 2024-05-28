@@ -13,6 +13,8 @@ import FindPeople from '../components/FindPeople';
 import Sidebar from '../components/Sidebar';
 import FindProjects from '../components/FindProjects';
 import FindStudents from '../components/FindStudents';
+// import Graph from '../components/Graph';
+import KnowTeamMembers from '../components/KnowTeamMembers';
 // import UploadData from '../components/UploadData';
 // import AccessData from '../components/AccessData';
 
@@ -113,15 +115,18 @@ const router = createBrowserRouter([
       </>
     ),
   },
-  // {
-  //   path: "/Privacy_Regulations",
-  //   element: (
-  //     <>
-  //       <Navbar />
-  //       <Footer />
-  //     </>
-  //   ),
-  // },
+  {
+    path: "/know_team_members",
+    element: (
+      <>
+        <Navbar />
+        <Sidebar/>
+        <KnowTeamMembers/>
+        <Footer />
+      </>
+    ),
+  },
+
   
 ]);
 
