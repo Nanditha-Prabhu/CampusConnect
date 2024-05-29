@@ -53,7 +53,7 @@ export default function StudentSignUp() {
     area_of_int1: "",
     area_of_int2: "",
     sem: 0,
-    skills: []
+    skills: [],
   });
 
   const handleChange = (event) => {
@@ -61,7 +61,7 @@ export default function StudentSignUp() {
   };
 
   const handleSklsChange = (e) => {
-    console.log(e)
+    console.log(e);
     // Destructuring
     const { value, checked } = e.target;
     let { skils } = "";
@@ -70,40 +70,42 @@ export default function StudentSignUp() {
 
     // Case 1 : The user checks the box
     if (checked) {
-      skils = value
-      formData.skills.push(skils)
+      skils = value;
+      formData.skills.push(skils);
     }
 
     // Case 2  : The user unchecks the box
     else {
-      skils = value
+      skils = value;
       const index = formData.skills.indexOf(skils);
       if (index !== -1) {
         formData.skills.splice(index, 1);
       }
     }
-    console.log(formData)
-  }
+    // console.log(formData);
+  };
 
-  const [response, setResponse] =useState([])
+  const [response, setResponse] = useState([]);
   const handleSubmit = async (event) => {
-    setIsLoading(true)
+    setIsLoading(true);
     event.preventDefault();
 
     try {
-      const r = await axios.post("http://localhost:8080/create_student", formData);
-      console.log(r.data);
-      const data = r.data
-      
-      if(data.length == 0){
-        setResponse("Successful")
-      }else{
-        setResponse("Unsuccessful")
+      const r = await axios.post(
+        "http://localhost:8080/create_student",
+        formData
+      );
+      // console.log(r.data);
+      const data = r.data;
+
+      if (data.length == 0) {
+        setResponse("Successful");
+      } else {
+        setResponse("Unsuccessful");
       }
-      
-      // Display the transposed array
-      console.log(response);
-      setIsLoading(false)
+
+      // console.log(response);
+      setIsLoading(false);
     } catch (error) {
       setResponse(null);
       console.error("Error submitting form:", error);
@@ -112,22 +114,13 @@ export default function StudentSignUp() {
 
   return (
     <section>
+      {/* form section */}
       <div className="  dark:bg-slate-700 flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
-          
           <h2 className="text-center text-2xl font-bold leading-tight text-black dark:text-white">
-            Sign up to create account
+            Sign up to create student account
           </h2>
-          <p className="mt-2 text-center text-base text-gray-600 dark:text-gray-100">
-            Already have an account?{" "}
-            <a
-              href="#"
-              title=""
-              className="font-medium text-black dark:text-white transition-all duration-200 hover:underline"
-            >
-              Sign In
-            </a>
-          </p>
+          
           <form
             onSubmit={handleSubmit}
             method="POST"
@@ -143,7 +136,7 @@ export default function StudentSignUp() {
                 </label>
                 <div className="mt-2">
                   <input
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     placeholder="Full Name"
@@ -163,7 +156,7 @@ export default function StudentSignUp() {
                 </label>
                 <div className="mt-2">
                   <input
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     placeholder="USN"
@@ -184,7 +177,7 @@ export default function StudentSignUp() {
                 </label>
                 <div className="mt-2">
                   <input
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="email"
                     placeholder="Email"
@@ -206,7 +199,7 @@ export default function StudentSignUp() {
                 </div>
                 <div className="mt-2">
                   <select
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     id="dept"
@@ -214,15 +207,21 @@ export default function StudentSignUp() {
                     value={formData.department}
                     onChange={handleChange}
                   >
-                    <option className="text-black" value="">Select your department</option>
-                    <option className="text-black" value="Computer Science">Computer Science</option>
+                    <option className="text-black" value="">
+                      Select your department
+                    </option>
+                    <option className="text-black" value="Computer Science">
+                      Computer Science
+                    </option>
                     <option className="text-black" value="Information Science">
                       Information Science
                     </option>
                     <option className="text-black" value="Mechanical Engineering">
                       Mechanical Engineering
                     </option>
-                    <option className="text-black" value="Civil Engineering">Civil Engineering</option>
+                    <option className="text-black" value="Civil Engineering">
+                      Civil Engineering
+                    </option>
                   </select>
                 </div>
               </div>
@@ -237,7 +236,7 @@ export default function StudentSignUp() {
                 </div>
                 <div className="mt-2">
                   <select
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     name="area_of_int1"
@@ -250,7 +249,11 @@ export default function StudentSignUp() {
                     {areaOfInt &&
                       areaOfInt.flat().map((item, idx) => {
                         return (
-                          <option className="text-black" key={item} value={item}>
+                          <option
+                            className="text-black"
+                            key={item}
+                            value={item}
+                          >
                             {item}
                           </option>
                         );
@@ -270,7 +273,7 @@ export default function StudentSignUp() {
                 </div>
                 <div className="mt-2">
                   <select
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     name="area_of_int2"
@@ -283,7 +286,11 @@ export default function StudentSignUp() {
                     {areaOfInt &&
                       areaOfInt.flat().map((item, idx) => {
                         return (
-                          <option className="text-black" key={item} value={item}>
+                          <option
+                            className="text-black"
+                            key={item}
+                            value={item}
+                          >
                             {item}
                           </option>
                         );
@@ -303,7 +310,7 @@ export default function StudentSignUp() {
                 </div>
                 <div className="mt-2">
                   <select
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="number"
                     id="sem"
@@ -311,15 +318,33 @@ export default function StudentSignUp() {
                     value={formData.sem}
                     onChange={handleChange}
                   >
-                    <option className="text-black" value="">Select your semester</option>
-                    <option className="text-black" value="1">1</option>
-                    <option className="text-black" value="2">2</option>
-                    <option className="text-black" value="3">3</option>
-                    <option className="text-black" value="4">4</option>
-                    <option className="text-black" value="5">5</option>
-                    <option className="text-black" value="6">6</option>
-                    <option className="text-black" value="7">7</option>
-                    <option className="text-black" value="8">8</option>
+                    <option className="text-black" value="">
+                      Select your semester
+                    </option>
+                    <option className="text-black" value="1">
+                      1
+                    </option>
+                    <option className="text-black" value="2">
+                      2
+                    </option>
+                    <option className="text-black" value="3">
+                      3
+                    </option>
+                    <option className="text-black" value="4">
+                      4
+                    </option>
+                    <option className="text-black" value="5">
+                      5
+                    </option>
+                    <option className="text-black" value="6">
+                      6
+                    </option>
+                    <option className="text-black" value="7">
+                      7
+                    </option>
+                    <option className="text-black" value="8">
+                      8
+                    </option>
                   </select>
                 </div>
               </div>
@@ -351,9 +376,9 @@ export default function StudentSignUp() {
                               {item}
                             </label>
                           </div>
-                        );})}
-                    </div>
-                  
+                        );
+                      })}
+                  </div>
                 </div>
               </div>
 
@@ -367,14 +392,20 @@ export default function StudentSignUp() {
               </div>
             </div>
           </form>
-          {isLoading?(
-          <Loading/>
-        ):(
-          response && (
-            <p className={`p-5 text-center font-semibold text-lg ${response === 'Successful' ? 'text-green-500' : 'text-red-500'}`}>
-  {response}
-</p>          )
-        )}
+          {/* message section */}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            response && (
+              <p
+                className={`p-5 text-center font-semibold text-lg ${
+                  response === "Successful" ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {response}
+              </p>
+            )
+          )}
         </div>
       </div>
     </section>

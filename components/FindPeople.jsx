@@ -26,8 +26,8 @@ export default function FindPeople() {
     try{
       const r = await axios.get('http://localhost:8080/all_areas')
       setAreaOfInt(r.data)
-      console.log(r.data)
-      console.log(areaOfInt)
+      // console.log(r.data)
+      // console.log(areaOfInt)
     }catch(error){
       console.error('Error fetching data:', error);
     }
@@ -43,7 +43,7 @@ export default function FindPeople() {
 
     try {
       const r = await axios.post("http://localhost:8080/find_people", formData);
-      console.log(r.data);
+      // console.log(r.data);
       const data = r.data
       
       if(data.length == 0){
@@ -56,8 +56,7 @@ export default function FindPeople() {
       });
       setResponse(data2)
     }
-      // Display the transposed array
-      console.log(response);
+      // console.log(response);
       setIsLoading(false)     
     } catch (error) {
       setResponse(null);
@@ -67,6 +66,7 @@ export default function FindPeople() {
 
   return (
     <>
+    {/* input form */}
       <div className="mx-auto max-w-screen-2xl px-4 py-32 dark:bg-slate-700 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-2xl dark:text-white font-bold sm:text-3xl">
@@ -134,6 +134,7 @@ export default function FindPeople() {
             </button>
           </div>
         </form>
+        {/* results */}
         {isLoading?(
           <Loading/>
         ):(

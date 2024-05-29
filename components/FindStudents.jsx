@@ -27,8 +27,8 @@ export default function FindStudents() {
     try {
       const r = await axios.get("http://localhost:8080/all_areas");
       setAreaOfInt(r.data);
-      console.log(r.data);
-      console.log(areaOfInt);
+      // console.log(r.data);
+      // console.log(areaOfInt);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -62,7 +62,7 @@ export default function FindStudents() {
         "http://localhost:8080/find_students",
         formData
       );
-      console.log(r.data);
+      // console.log(r.data);
       const data = r.data;
 
       // Transpose the array
@@ -76,8 +76,7 @@ export default function FindStudents() {
         setResponse(data);
       }
 
-      // Display the transposed array
-      console.log(response);
+      // console.log(response);
       setIsLoading(false);
     } catch (error) {
       setResponse(null);
@@ -87,6 +86,7 @@ export default function FindStudents() {
 
   return (
     <>
+      {/* input form */}
       <div className="mx-auto max-w-screen-2xl px-4 py-32 dark:bg-slate-700 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-2xl dark:text-white font-bold sm:text-3xl">
@@ -163,6 +163,7 @@ export default function FindStudents() {
             </button>
           </div>
         </form>
+        {/* results section */}
         {isLoading ? (
           <Loading />
         ) : (

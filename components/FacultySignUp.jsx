@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import axios from "axios";
 import Loading from "./Loading";
@@ -10,7 +10,7 @@ export default function FacultySignUp() {
     department: "",
     area_of_int1: "",
     area_of_int2: "",
-    designation: ""
+    designation: "",
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,26 +42,28 @@ export default function FacultySignUp() {
     }
   };
 
-  const [response, setResponse] =useState([])
+  const [response, setResponse] = useState([]);
   const handleSubmit = async (event) => {
-    setIsLoading(true)
+    setIsLoading(true);
     event.preventDefault();
 
     try {
-      const r = await axios.post("http://localhost:8080/create_faculty", formData);
-      console.log(r.data);
-      const data = r.data
-      
-      if(data.length == 0){
-        setResponse("Successful")
-      }else{
-        setResponse("Unsuccessful")
+      const r = await axios.post(
+        "http://localhost:8080/create_faculty",
+        formData
+      );
+      // console.log(r.data);
+      const data = r.data;
+
+      if (data.length == 0) {
+        setResponse("Successful");
+      } else {
+        setResponse("Unsuccessful");
       }
-      
+
       // Display the transposed array
-      console.log(response);
-      setIsLoading(false)
-      
+      // console.log(response);
+      setIsLoading(false);
     } catch (error) {
       setResponse(null);
       console.error("Error submitting form:", error);
@@ -70,22 +72,17 @@ export default function FacultySignUp() {
 
   return (
     <section>
+      {/* form section */}
       <div className="  dark:bg-slate-700 flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <h2 className="text-center text-2xl font-bold leading-tight text-black dark:text-white">
-            Sign up to create account
+            Sign up to create faculty account
           </h2>
-          <p className="mt-2 text-center text-base text-gray-600 dark:text-gray-100">
-            Already have an account?{" "}
-            <a
-              href="#"
-              title=""
-              className="font-medium text-black dark:text-white transition-all duration-200 hover:underline"
-            >
-              Sign In
-            </a>
-          </p>
-          <form onSubmit={handleSubmit} method="POST" className="mt-8 text-gray-900 dark:text-slate-200">
+          <form
+            onSubmit={handleSubmit}
+            method="POST"
+            className="mt-8 text-gray-900 dark:text-slate-200"
+          >
             <div className="space-y-5">
               <div>
                 <label
@@ -96,9 +93,9 @@ export default function FacultySignUp() {
                 </label>
                 <div className="mt-2">
                   <input
-                  required
-                  onChange={handleChange}
-                  value={formData.name}
+                    required
+                    onChange={handleChange}
+                    value={formData.name}
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     placeholder="Full Name"
@@ -107,7 +104,7 @@ export default function FacultySignUp() {
                   ></input>
                 </div>
               </div>
-              
+
               <div>
                 <label
                   htmlFor="email"
@@ -118,8 +115,8 @@ export default function FacultySignUp() {
                 </label>
                 <div className="mt-2">
                   <input
-                  onChange={handleChange}
-                  value={formData.email_id}
+                    onChange={handleChange}
+                    value={formData.email_id}
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="email"
                     placeholder="Email"
@@ -139,22 +136,22 @@ export default function FacultySignUp() {
                 </div>
                 <div className="mt-2">
                   <select
-                  onChange={handleChange}
-                  value={formData.department}
+                    onChange={handleChange}
+                    value={formData.department}
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     id="dept"
                     name="department"
                   >
-                    <option value="">Select your department</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Information Science">
+                    <option className="text-black" value="">Select your department</option>
+                    <option className="text-black" value="Computer Science">Computer Science</option>
+                    <option className="text-black" value="Information Science">
                       Information Science
                     </option>
-                    <option value="Mechanical Engineering">
+                    <option className="text-black" value="Mechanical Engineering">
                       Mechanical Engineering
                     </option>
-                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option className="text-black" value="Civil Engineering">Civil Engineering</option>
                   </select>
                 </div>
               </div>
@@ -169,7 +166,7 @@ export default function FacultySignUp() {
                 </div>
                 <div className="mt-2">
                   <select
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     name="area_of_int1"
@@ -182,7 +179,11 @@ export default function FacultySignUp() {
                     {areaOfInt &&
                       areaOfInt.flat().map((item, idx) => {
                         return (
-                          <option className="text-black" key={item} value={item}>
+                          <option
+                            className="text-black"
+                            key={item}
+                            value={item}
+                          >
                             {item}
                           </option>
                         );
@@ -202,7 +203,7 @@ export default function FacultySignUp() {
                 </div>
                 <div className="mt-2">
                   <select
-                  required
+                    required
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     name="area_of_int2"
@@ -215,7 +216,11 @@ export default function FacultySignUp() {
                     {areaOfInt &&
                       areaOfInt.flat().map((item, idx) => {
                         return (
-                          <option className="text-black" key={item} value={item}>
+                          <option
+                            className="text-black"
+                            key={item}
+                            value={item}
+                          >
                             {item}
                           </option>
                         );
@@ -233,19 +238,23 @@ export default function FacultySignUp() {
                     Designation
                   </label>
                 </div>
-              <div className="mt-2">
+                <div className="mt-2">
                   <select
-                  name="designation"
-                  onChange={handleChange}
-                  value={formData.designation}
+                    name="designation"
+                    onChange={handleChange}
+                    value={formData.designation}
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     id="designation"
                   >
-                    <option value="">Select your designation</option>
-                    <option value="Professor">Professor</option>
-                    <option value="Assistant Professor">Assistant Professor</option>
-                    <option value="Associate Professor">Associate Professor</option>
+                    <option className="text-black" value="">Select your designation</option>
+                    <option className="text-black" value="Professor">Professor</option>
+                    <option className="text-black" value="Assistant Professor">
+                      Assistant Professor
+                    </option>
+                    <option className="text-black" value="Associate Professor">
+                      Associate Professor
+                    </option>
                   </select>
                 </div>
               </div>
@@ -260,14 +269,20 @@ export default function FacultySignUp() {
               </div>
             </div>
           </form>
-          {isLoading?(
-          <Loading/>
-        ):(
-          response && (
-            <p className={`p-5 text-center font-semibold text-lg ${response === 'Successful' ? 'text-green-500' : 'text-red-500'}`}>
-  {response}
-</p>          )
-)}
+          {/* message section */}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            response && (
+              <p
+                className={`p-5 text-center font-semibold text-lg ${
+                  response === "Successful" ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {response}
+              </p>
+            )
+          )}
         </div>
       </div>
     </section>
