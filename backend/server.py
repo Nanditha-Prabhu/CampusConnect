@@ -15,27 +15,12 @@ config.DATABASE_URL = "bolt://neo4j:projectnetwork@localhost:7687"
 app = Flask(__name__)
 CORS(app)
 
-
+# testing route
 @app.route('/')
 def index():
     return 'its working'
 
-@app.route('/ongoing')
-def ongoing_projects():
-    query1 = """
-    MATCH (p:PROJECT {status: 'Ongoing'}) return p.title, p.area_of_interest
-    """
-
-    result, meta = db.cypher_query(query1)
-
-    # This returns a dictionary, the keys being the name of the Cypher variables - 'name' in our example
-    result_as_dict = [dict(zip(meta, row)) for row in result]
-    # lst = []
-    # for d in result1:
-    #     print(d)
-    #     lst.append(d)
-    return result_as_dict
-
+# lists all area of interests
 @app.route('/all_areas')
 def all_area_of_interests():
     query = """
@@ -60,6 +45,7 @@ def all_area_of_interests():
     # print(result)
     return result
 
+# lists all skills
 @app.route('/all_skills')
 def all_skills():
     query = """
@@ -72,6 +58,7 @@ def all_skills():
     print(result)
     return result
 
+# creates student node
 @app.route('/create_student', methods=['POST'])
 def create_student():
     data = request.json
@@ -104,6 +91,7 @@ def create_student():
     print(result)
     return result
 
+# creates faculty node
 @app.route('/create_faculty', methods=['POST'])
 def create_faculty():
     data = request.json
@@ -132,6 +120,7 @@ def create_faculty():
     print(result)
     return result
 
+# find people with similar interest
 @app.route('/find_people', methods=['POST'])
 def find_people():
     data = request.json
@@ -140,6 +129,7 @@ def find_people():
     query1 = "MATCH (n:" + people + ") WHERE '" + area + "' in n.area_of_interest RETURN n.name, n.student_name, n.department, n.designation, n.usn, n.email_id"
     query2 = "MATCH (n) WHERE '" + area + "' in n.area_of_interest RETURN n.name, n.student_name, n.department, n.designation, n.usn, n.email_id"
 
+    # null results are also handled(only in this function)
     nodes = [[],[],[],[]]
     if(people=='ALL'):
         result, meta = db.cypher_query(query2)
@@ -184,6 +174,7 @@ def find_people():
     print(nodes)
     return nodes
 
+# find projects according to area of interest
 @app.route('/find_projects', methods=['POST'])
 def find_projects():
     data = request.json
@@ -200,6 +191,7 @@ def find_projects():
         print(result)
     return result
 
+# find students according to the skill
 @app.route('/find_students', methods=['POST'])
 def find_students():
     data = request.json
@@ -218,6 +210,7 @@ def find_students():
     print(result)
     return result
 
+# list the entire team
 @app.route('/know-team', methods=['POST'])
 def get_projects():
     data = request.json
@@ -274,6 +267,8 @@ def get_projects():
     print(projects)
     return projects
 
+## statistics
+# total people
 @app.route('/stat_count_total_ppl')
 def stat_count_student_faculty():
     query = """
@@ -286,6 +281,7 @@ def stat_count_student_faculty():
     print(result)
     return result
 
+# labs
 @app.route('/stat_count_labs')
 def stat_count_labs():
     query = """
@@ -296,6 +292,7 @@ def stat_count_labs():
     print(result)
     return result
 
+# ppl engaged in projects
 @app.route('/stat_count_engaged_ppl')
 def stat_count_engaged_ppl():
     query = """
@@ -308,6 +305,7 @@ def stat_count_engaged_ppl():
     print(result)
     return result
 
+# projects
 @app.route('/stat_count_projects')
 def stat_count_projects():
     query = """
@@ -326,7 +324,7 @@ if __name__ == '__main__':
     app.run(debug=True, port=8080)
 
 
-# connect it to frontend as follows:
+# simple template to connect backend to frontend inorder to check the working:
 # import React, { useState, useEffect } from 'react';
 # import axios from 'axios';
 
