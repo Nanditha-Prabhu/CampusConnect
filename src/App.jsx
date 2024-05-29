@@ -15,6 +15,7 @@ import FindProjects from '../components/FindProjects';
 import FindStudents from '../components/FindStudents';
 // import Graph from '../components/Graph';
 import KnowTeamMembers from '../components/KnowTeamMembers';
+import Statistics from '../components/Statistics';
 // import UploadData from '../components/UploadData';
 // import AccessData from '../components/AccessData';
 
@@ -122,6 +123,17 @@ const router = createBrowserRouter([
         <Navbar />
         <Sidebar/>
         <KnowTeamMembers/>
+        <Footer />
+      </>
+    ),
+  },
+  {
+    path: "/statistics",
+    element: (
+      <>
+        <Navbar />
+        <Sidebar/>
+        <Statistics/>
         <Footer />
       </>
     ),

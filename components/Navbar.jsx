@@ -19,7 +19,7 @@ export default function Navbar() {
                 Show navigation
               </button>
             </div>
-            <p className=" font-bold font-mono text-rose-400 dark:text-amber-200">Campus Connect</p>
+            <p className=" font-bold font-mono text-teal-600 dark:text-teal-300">Campus Connect</p>
 
             {/* <div className=" text-center">
               <Link to="/your_profile"

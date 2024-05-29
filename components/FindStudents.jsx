@@ -24,15 +24,15 @@ export default function FindStudents() {
   }, []);
 
   const applyAreaOfInterest = async () => {
-    try{
-      const r = await axios.get('http://localhost:8080/all_areas')
-      setAreaOfInt(r.data)
-      console.log(r.data)
-      console.log(areaOfInt)
-    }catch(error){
-      console.error('Error fetching data:', error);
+    try {
+      const r = await axios.get("http://localhost:8080/all_areas");
+      setAreaOfInt(r.data);
+      console.log(r.data);
+      console.log(areaOfInt);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  }
+  };
 
   useEffect(() => {
     applySkls();
@@ -54,28 +54,31 @@ export default function FindStudents() {
   };
 
   const handleSubmit = async (event) => {
-    setIsLoading(true)
+    setIsLoading(true);
     event.preventDefault();
 
     try {
-      const r = await axios.post("http://localhost:8080/find_students", formData);
+      const r = await axios.post(
+        "http://localhost:8080/find_students",
+        formData
+      );
       console.log(r.data);
-      const data = r.data
-      
+      const data = r.data;
+
       // Transpose the array
-    //   const data2 = data[0].map((_, colIndex) => data.map(row => row[colIndex]));
-    if(data.length == 0){
-      alert('No students found :(')
-    }else{
-      data.map((item, idx) => {
-      response.push(item);
-      });
-      setResponse(data)
-    }
-      
+      //   const data2 = data[0].map((_, colIndex) => data.map(row => row[colIndex]));
+      if (data.length == 0) {
+        alert("No students found :(");
+      } else {
+        data.map((item, idx) => {
+          response.push(item);
+        });
+        setResponse(data);
+      }
+
       // Display the transposed array
       console.log(response);
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
       setResponse(null);
       console.error("Error submitting form:", error);
@@ -87,7 +90,7 @@ export default function FindStudents() {
       <div className="mx-auto max-w-screen-2xl px-4 py-32 dark:bg-slate-700 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-2xl dark:text-white font-bold sm:text-3xl">
-            Find people with right skills 🎖
+            Find students with right skills 🎖
           </h1>
 
           <p className="mt-4 text-gray-500">
@@ -100,13 +103,14 @@ export default function FindStudents() {
           onSubmit={handleSubmit}
           className=" mx-auto mb-0 mt-8 max-w-md space-y-4"
         >
-          
           <div>
-            <label className="dark:text-white" htmlFor="areaOfInterest">Area of interest</label>
+            <label className="dark:text-white" htmlFor="areaOfInterest">
+              Area of interest
+            </label>
 
             <div className="relative pt-2">
               <select
-              required
+                required
                 name="areaOfInterest"
                 value={formData.areaOfInterest}
                 onChange={handleChange}
@@ -114,22 +118,23 @@ export default function FindStudents() {
                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
               >
                 <option value="">Select area of interest</option>
-                {areaOfInt && areaOfInt.flat().map((item, idx)=>{
-                        return <option key={item} value={item}>
-                          {item}
-                        </option>
-              })}
+                {areaOfInt &&
+                  areaOfInt.flat().map((item, idx) => {
+                    return (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
           </div>
 
           <div>
-                  <label className="dark:text-white">
-                    Skills
-                  </label>
-                  <div className="relative pt-2">
+            <label className="dark:text-white">Skills</label>
+            <div className="relative pt-2">
               <select
-              required
+                required
                 name="skill"
                 value={formData.skill}
                 onChange={handleChange}
@@ -137,21 +142,18 @@ export default function FindStudents() {
                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
               >
                 <option value="">Select skill</option>
-                    {skls &&
-                      skls.flat().map((item, idx) => {
-                        return (
-                            <option
-                              id={item}
-                              name="skills"
-                              value={item}
-                            >{item}</option>
-                            
-                        );})}
-                 </select>
-                  
-                </div>
-              </div>
-                
+                {skls &&
+                  skls.flat().map((item, idx) => {
+                    return (
+                      <option id={item} name="skills" value={item}>
+                        {item}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+          </div>
+
           <div className="flex items-center justify-between">
             <button
               type="submit"
@@ -161,63 +163,75 @@ export default function FindStudents() {
             </button>
           </div>
         </form>
-        {isLoading?(
-          <Loading/>
-        ):(
-        <div className="mx-auto max-w-screen-lg text-center">
-          <h2 className="text-xl dark:text-white font-bold sm:text-2xl py-8">Results</h2>
-          <table className=" w-full border-collapse">
-            <thead>
-              <tr>
-                <th className=" border-2 text-amber-500 px-3 py-10">
-                  Name
-                </th>
-                <th className=" border-2 text-amber-500 px-3 py-10">
-                  Department
-                </th>
-                <th className=" border-2 text-amber-500 px-3 py-10">
-                  Area of Interests
-                </th>
-                <th className=" border-2 text-amber-500 px-3 py-10">
-                  Skills
-                </th>
-                <th className=" border-2 text-amber-500 px-3 py-10">
-                  Contact
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {response.map((arr, idx) => {
-                return <tr key={idx}>
-                
-                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
-                {arr[0]}
-                </td>
-                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
-                {arr[1]}
-                </td>
-                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
-                {arr[2].map((aoi, i)=>{
-                        return <li key={i} >
-                        {aoi}
-                        </li>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="mx-auto max-w-screen-lg text-center">
+            <h2 className="text-xl dark:text-white font-bold sm:text-2xl py-8">
+              Results
+            </h2>
+            <table className=" w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className=" border-2 text-amber-500 px-3 py-10">Name</th>
+                  <th className=" border-2 text-amber-500 px-3 py-10">
+                    Department
+                  </th>
+                  <th className=" border-2 text-amber-500 px-3 py-10">
+                    Area of Interests
+                  </th>
+                  <th className=" border-2 text-amber-500 px-3 py-10">
+                    Skills
+                  </th>
+                  <th className=" border-2 text-amber-500 px-3 py-10">
+                    Contact
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {response.map((arr, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td
+                        key={idx}
+                        className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left"
+                      >
+                        {arr[0]}
+                      </td>
+                      <td
+                        key={idx}
+                        className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left"
+                      >
+                        {arr[1]}
+                      </td>
+                      <td
+                        key={idx}
+                        className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left"
+                      >
+                        {arr[2].map((aoi, i) => {
+                          return <li key={i}>{aoi}</li>;
+                        })}
+                      </td>
+                      <td
+                        key={idx}
+                        className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left"
+                      >
+                        {arr[3].map((sk, i) => {
+                          return <li key={i}>{sk}</li>;
+                        })}
+                      </td>
+                      <td
+                        key={idx}
+                        className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left"
+                      >
+                        {arr[4]}
+                      </td>
+                    </tr>
+                  );
                 })}
-                </td>
-                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
-                {arr[3].map((sk, i)=>{
-                    return <li key={i} >
-                    {sk}
-                    </li>
-                })}
-                </td>
-                <td key={idx} className=" border-2 px-3 text-slate-700 dark:text-slate-100 text-left">
-                {arr[4]}
-                </td>
-        </tr>
-              })}
-            </tbody>
-          </table>
-        </div>
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </>
