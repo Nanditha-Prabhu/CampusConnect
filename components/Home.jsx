@@ -29,8 +29,9 @@ export default function Home() {
       {/* features section */}
       <section
         id="special"
-        className="bg-slate-500 dark:bg-gray-900 text-white px-20 "
+        className=" justify-center bg-slate-500 dark:bg-gray-900 text-white px-20 "
       >
+        <div className="items-start lg:flex lg:items-center lg:justify-center">
         <div className="max-w-screen-xl flex flex-col items-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-20">
           <div className="max-w-xl text-center ">
             <h2 className="text-3xl font-bold sm:text-4xl">
@@ -239,7 +240,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
+          </div>
+          </div>
       </section>
     </>
   );
